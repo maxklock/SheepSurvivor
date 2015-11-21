@@ -12,13 +12,24 @@ var settings = {
 	camera: {
 		minRadius: 8,
 		maxRadius: 20
-	}
+	},
+	energie: 100,
+	food: 10
 };
 
-window.addEventListener('DOMContentLoaded', function(){
+var values = {
+	food: 0,
+	energie: 0
+};
+
+var sounds = {
+	sheep: null
+};
+
+window.addEventListener('DOMContentLoaded', function() {
 		// get the canvas DOM element
 		var canvas = document.getElementById('renderCanvas');
-
+	
 		// load the 3D engine
 		var engine = new BABYLON.Engine(canvas, true);
 		
@@ -26,6 +37,7 @@ window.addEventListener('DOMContentLoaded', function(){
 		var camera;
 		var world;
 		var player;
+		var foods;
 		
 		// createScene function that creates and return the scene
 		var createScene = function(){
@@ -33,45 +45,97 @@ window.addEventListener('DOMContentLoaded', function(){
 			var scene = new BABYLON.Scene(engine);
 			
 			// init player
+			if (player != null) {
+				player.dispose();
+				player = null;
+			}
 			player = CreatePlayer(scene);
 			
 			// camera = new BABYLON.FreeCamera('camera1', new BABYLON.Vector3(0, 5,-10), scene);
+			if (camera != null) {
+				camera.dispose();
+				camera = null;
+			}
 			camera = CreateCamera(scene, player, canvas);
-
+	
 			// create a basic light, aiming 0,1,0 - meaning, to the sky
 			var light = new BABYLON.DirectionalLight('light1', new BABYLON.Vector3(0,-1,0), scene);
-
+	
 			// create a built-in "ground" shape; its constructor takes the same 5 params as the sphere's one
 			// world = new BABYLON.Mesh.CreateGround('ground1', 100, 100, 2, scene);
+			if (world != null) {
+				world.dispose();
+				world = null;
+			}
 			world = CreateWorld(scene);
 			world.checkCollisions = true;
 			world.position.y = -2;
-
+			
+				
+			// load sounds;
+			if (sounds.sheep != null) {
+				sounds.sheep.dispose();
+				sounds.sheep = null;
+			}
+			sounds.sheep = new BABYLON.Sound("sheep", "music/sheep.wav", scene);
+		
+			// create food;
+			foods = new Array();
+			foods.push(CreateFood(scene, new BABYLON.Vector3(-80, 5, -50)));
+			foods.push(CreateFood(scene, new BABYLON.Vector3(20, 3, 2)));
+			
+			// init values;
+			values.energie = settings.energie;
+			values.food = settings.food;
+	
 			// return the created scene
 			return scene;
 		}
-
+	
 		// call the createScene function
-		var scene = createScene();
-
-		var foods = new Array();
-		foods.push(CreateFood(scene, new BABYLON.Vector3(-80, 5, -50)));
-		foods.push(CreateFood(scene, new BABYLON.Vector3(20, 3, 2)));
-
+		var scene;
+	
 		// run the render loop
 		engine.runRenderLoop(function(){
-			scene.render();
 			
-			UpdatePlayer(player);
-			UpdateCamera(camera);
-			
-			foods.forEach(function(food) {
-				UpdateFood(food, player);
-			}, this);
+			if (state == STATES.startGame) {
+				scene = createScene();
+				state = STATES.inGame;
+			}
+			else if (state == STATES.inGame) {
+				scene.render();
 				
-			mouseWheelDelta = 0;
+				UpdatePlayer(player);
+				UpdateCamera(camera);
+				
+				for (var i = 0; i < foods.length; i++) { 
+					if (!UpdateFood(foods[i], player, scene)) {
+						foods[i].dispose();
+						foods.splice(i, 1);
+					}
+				}
+				
+				if (isDown('M')) {
+					sounds.sheep.play();
+				}
+				
+				values.energie--;
+				if (values.energie <= 0) {
+					values.food--;
+					values.energie = settings.energie;
+				}
+				
+				if (values.food <= 0) {
+					state = STATES.gameOver;
+					UpdateUI();
+				}
+			}		
+				
+			UpdateUI();
+				
+			mouseWheelDelta = 0;	
 		});
-
+	
 		// the canvas/window resize event handler
 		window.addEventListener('resize', function(){
 			engine.resize();

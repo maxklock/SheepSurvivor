@@ -6,7 +6,7 @@ function CreatePlayer(scene) {
 	
 	var playerMaterial = new BABYLON.StandardMaterial("playerMaterial", scene);
 	playerMaterial.diffuseTexture = new BABYLON.Texture("images/sheep.png", scene);
-	playerMaterial.specularTexture = new BABYLON.Texture("images/sheep.png", scene);
+	playerMaterial.specularPower = Number.MAX_VALUE;
 	
 	player.material = playerMaterial;
 	

@@ -5,9 +5,11 @@ function CreateFood(scene, position) {
 	return food;
 }
 
-function UpdateFood(food, player) {
-	if (food.intersectsMesh(player, false)) {
-		food.position.y = -100;
-		food.dispose();
+function UpdateFood(food, player, scene) {
+	if (player.intersectsMesh(food, false)) {
+		values.food += 10;
+		return false;
 	}
+	
+	return true;
 }

@@ -6,8 +6,26 @@ html, body {
 	padding : 0;
 }
 
+section {
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+	padding: 0px;
+}
+
 #renderCanvas {
 	width   : 100%;
 	height  : 100%;
 	touch-action: none;
+}
+
+#foodDiv {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	text-align: center;
+	width: 100px;
+	height: 30px;
+	border: 1px solid black;
+	background-color: white;
 }

@@ -1,6 +1,7 @@
 function CreateWorld(scene) {
 	var groundMaterial = new BABYLON.StandardMaterial("world_material", scene);
 	groundMaterial.diffuseTexture = new BABYLON.Texture("images/world.png", scene);
+	groundMaterial.specularPower = Number.MAX_VALUE;
 	
 	var settings = {
 		width: 200,
