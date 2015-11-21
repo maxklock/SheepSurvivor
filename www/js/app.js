@@ -29,7 +29,7 @@ window.addEventListener('DOMContentLoaded', function(){
 			
 			// init player
 			player = new BABYLON.Mesh.CreateSphere('sphere2', 16, 2, scene);
-			player.position.y += 8;
+			player.position.y += 5;
 			
 			//camera = new BABYLON.FreeCamera('camera1', new BABYLON.Vector3(0, 5,-10), scene);
 			camera = new BABYLON.FollowCamera("FollowCam", new BABYLON.Vector3(0, 50, 0), scene);
@@ -45,7 +45,9 @@ window.addEventListener('DOMContentLoaded', function(){
 			// world = new BABYLON.Mesh.CreateGround('ground1', 100, 100, 2, scene);
 			world = CreateGround(scene);
 			world.checkCollisions = true;
+			world.position.y = -2;
 
+			var water = CreateWater(scene);
 
 			// return the created scene
 			return scene;
@@ -75,6 +77,11 @@ window.addEventListener('DOMContentLoaded', function(){
 				forwards.x = parseFloat(Math.sin(player.rotation.y)) / settings.movingSpeed;
 				forwards.z = parseFloat(Math.cos(player.rotation.y)) / settings.movingSpeed;
 				forwards.y = -settings.gravity;
+			}
+			
+			if (player.position.y <= 0.5) {
+				alert("Tot");
+				location.href = "index.html";
 			}
 
 			player.moveWithCollisions(forwards);
