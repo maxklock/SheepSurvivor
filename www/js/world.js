@@ -24,7 +24,7 @@ function CreateWorld(scene) {
 	var world = BABYLON.Mesh.CreateGroundFromHeightMap("world", "images/worldHeightMap.png", settings.width, settings.height, settings.levelOfDetail, settings.minLevel, settings.maxLevel, scene, false);
 	world.material = groundMaterial;
 	
-	var water = BABYLON.Mesh.CreateGround("water", settings.width, settings.height, settings.levelOfDetail, scene, false);
+	var water = BABYLON.Mesh.CreateGround("water", settings.width * 2, settings.height * 2, settings.levelOfDetail, scene, false);
 
 	var waterMaterial = new BABYLON.WaterMaterial("water_material", scene);
 	waterMaterial.bumpTexture = new BABYLON.Texture("images/water.png", scene); // Set the bump texture
