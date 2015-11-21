@@ -97,10 +97,10 @@ window.addEventListener('DOMContentLoaded', function(){
 		});
 		
 		window.addEventListener('keypress', function(e) {
-			keyStates[e.char.toUpperCase()] = true;
+			keyStates[String.fromCharCode(e.keyCode).toUpperCase()] = true;
 		});
 		
 		window.addEventListener('keyup', function(e) {
-			keyStates[e.char.toUpperCase()] = false;
+			keyStates[String.fromCharCode(e.keyCode).toUpperCase()] = false;
 		});
 	});
