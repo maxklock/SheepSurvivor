@@ -115,7 +115,7 @@ window.addEventListener('DOMContentLoaded', function() {
 					}
 				}
 				
-				if (isDown('M')) {
+				if (isDown('M') && !sounds.sheep.isPlaying) {
 					sounds.sheep.play();
 				}
 				
