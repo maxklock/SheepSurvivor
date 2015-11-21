@@ -1,5 +1,5 @@
 function CreateWorld(scene) {
-	var groundMaterial = new BABYLON.StandardMaterial("ground", scene);
+	var groundMaterial = new BABYLON.StandardMaterial("world_material", scene);
 	groundMaterial.diffuseTexture = new BABYLON.Texture("images/world.png", scene);
 	
 	var settings = {
@@ -12,7 +12,7 @@ function CreateWorld(scene) {
 	
 	// Skybox
 	var skybox = BABYLON.Mesh.CreateBox("skyBox", 1000.0, scene);
-    var skyboxMaterial = new BABYLON.StandardMaterial("skyBox", scene);
+    var skyboxMaterial = new BABYLON.StandardMaterial("skyBox_material", scene);
 	skyboxMaterial.backFaceCulling = false;
 	skyboxMaterial.reflectionTexture = new BABYLON.CubeTexture("images/TropicalSunnyDay", scene);
 	skyboxMaterial.reflectionTexture.coordinatesMode = BABYLON.Texture.SKYBOX_MODE;

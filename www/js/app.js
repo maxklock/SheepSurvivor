@@ -1,12 +1,23 @@
+var keyStates = new Array();
+var mouseWheelDelta = 0;
+
+function isDown(key) {
+	return keyStates[key];
+}
+
+var settings = {
+	rotationSpeed: Math.PI / 64,
+	movingSpeed: 4,
+	gravity: 0.2,
+	camera: {
+		minRadius: 8,
+		maxRadius: 20
+	}
+};
+
 window.addEventListener('DOMContentLoaded', function(){
 		// get the canvas DOM element
 		var canvas = document.getElementById('renderCanvas');
-		
-		var settings = {
-			rotationSpeed: Math.PI / 64,
-			movingSpeed: 4,
-			gravity: 0.2
-		};
 
 		// load the 3D engine
 		var engine = new BABYLON.Engine(canvas, true);
@@ -16,33 +27,16 @@ window.addEventListener('DOMContentLoaded', function(){
 		var world;
 		var player;
 		
-		var keyStates = new Array();
-		
-		function isDown(key) {
-			return keyStates[key];
-		}
-
 		// createScene function that creates and return the scene
 		var createScene = function(){
 			// create a basic BJS Scene object
 			var scene = new BABYLON.Scene(engine);
 			
 			// init player
-			player = new BABYLON.Mesh.CreateSphere('player', 16, 1, scene);
-			player.scaling.z = 2;
-			var playerHead = new BABYLON.Mesh.CreateSphere('playerHead', 16, 0.5, scene);
-			playerHead.parent = player;
-			playerHead.scaling.z = 0.5;
-			playerHead.position = new BABYLON.Vector3(0, 0.4, -0.4);
-			player.position.y += 3;
-			player.ellipsoid = new BABYLON.Vector3(0.25, 0.25, 0.25);
+			player = CreatePlayer(scene);
 			
 			// camera = new BABYLON.FreeCamera('camera1', new BABYLON.Vector3(0, 5,-10), scene);
-			camera = new BABYLON.FollowCamera("FollowCam", new BABYLON.Vector3(0, 50, 0), scene);
-			camera.target = player;
-
-			// attach the camera to the canvas
-			camera.attachControl(canvas, false);
+			camera = CreateCamera(scene, player, canvas);
 
 			// create a basic light, aiming 0,1,0 - meaning, to the sky
 			var light = new BABYLON.DirectionalLight('light1', new BABYLON.Vector3(0,-1,0), scene);
@@ -60,35 +54,22 @@ window.addEventListener('DOMContentLoaded', function(){
 		// call the createScene function
 		var scene = createScene();
 
+		var foods = new Array();
+		foods.push(CreateFood(scene, new BABYLON.Vector3(-80, 5, -50)));
+		foods.push(CreateFood(scene, new BABYLON.Vector3(20, 3, 2)));
+
 		// run the render loop
 		engine.runRenderLoop(function(){
 			scene.render();
 			
-			var forwards = new BABYLON.Vector3.Zero();
-			var direction = (isDown('W') ? 1 : (isDown('S') ? -1 : 0));
+			UpdatePlayer(player);
+			UpdateCamera(camera);
 			
-			if (isDown('A')) {
-				player.rotation.y -= settings.rotationSpeed * (direction == 0 ? 1 : direction);
-			}
-			if (isDown('D')) {
-				player.rotation.y += settings.rotationSpeed * (direction == 0 ? 1 : direction);
-			}
-			if (direction == 1) {
-				forwards.x = -parseFloat(Math.sin(player.rotation.y)) / settings.movingSpeed;
-				forwards.z = -parseFloat(Math.cos(player.rotation.y)) / settings.movingSpeed;
-				forwards.y = -settings.gravity;
-			}
-			if (direction == -1) {
-				forwards.x = parseFloat(Math.sin(player.rotation.y)) / settings.movingSpeed;
-				forwards.z = parseFloat(Math.cos(player.rotation.y)) / settings.movingSpeed;
-				forwards.y = -settings.gravity;
-			}
-			
-			if (player.position.y < 0.6) {
-				player.position.y = 0.6;
-			}
-
-			player.moveWithCollisions(forwards);
+			foods.forEach(function(food) {
+				UpdateFood(food, player);
+			}, this);
+				
+			mouseWheelDelta = 0;
 		});
 
 		// the canvas/window resize event handler
@@ -103,4 +84,8 @@ window.addEventListener('DOMContentLoaded', function(){
 		window.addEventListener('keyup', function(e) {
 			keyStates[String.fromCharCode(e.keyCode).toUpperCase()] = false;
 		});
+		
+		window.addEventListener('mousewheel', function (e) {
+			mouseWheelDelta = e.wheelDelta;
+		})
 	});
