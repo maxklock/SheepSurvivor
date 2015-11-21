@@ -130,7 +130,7 @@ window.addEventListener('DOMContentLoaded', function() {
 				
 				if (values.food <= 0) {
 					state = STATES.gameOver;
-					UpdateUI();
+					sounds.sheep.play();
 				}
 			}		
 				
