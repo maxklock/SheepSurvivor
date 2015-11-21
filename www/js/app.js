@@ -13,8 +13,11 @@ var settings = {
 		minRadius: 8,
 		maxRadius: 20
 	},
-	energie: 100,
-	food: 10
+	startValues: {
+		energie: 500,
+		food: 10	
+	},
+	food: 5
 };
 
 var values = {
@@ -85,8 +88,8 @@ window.addEventListener('DOMContentLoaded', function() {
 			foods.push(CreateFood(scene, new BABYLON.Vector3(20, 3, 2)));
 			
 			// init values;
-			values.energie = settings.energie;
-			values.food = settings.food;
+			values.energie = settings.startValues.energie;
+			values.food = settings.startValues.food;
 	
 			// return the created scene
 			return scene;

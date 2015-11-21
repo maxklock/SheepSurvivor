@@ -7,7 +7,7 @@ function CreateFood(scene, position) {
 
 function UpdateFood(food, player, scene) {
 	if (player.intersectsMesh(food, false)) {
-		values.food += 10;
+		values.food += settings.food;
 		return false;
 	}
 	
