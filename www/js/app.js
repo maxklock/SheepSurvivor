@@ -125,7 +125,7 @@ window.addEventListener('DOMContentLoaded', function() {
 				values.energie--;
 				if (values.energie <= 0) {
 					values.food--;
-					values.energie = settings.energie;
+					values.energie = settings.startValues.energie;
 				}
 				
 				if (values.food <= 0) {
