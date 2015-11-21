@@ -5,7 +5,7 @@ window.addEventListener('DOMContentLoaded', function(){
 		var settings = {
 			rotationSpeed: Math.PI / 64,
 			movingSpeed: 4,
-			gravity: 1
+			gravity: 0.2
 		};
 
 		// load the 3D engine
@@ -28,10 +28,11 @@ window.addEventListener('DOMContentLoaded', function(){
 			var scene = new BABYLON.Scene(engine);
 			
 			// init player
-			player = new BABYLON.Mesh.CreateSphere('sphere2', 16, 2, scene);
-			player.position.y += 5;
+			player = new BABYLON.Mesh.CreateSphere('sphere2', 16, 1, scene);
+			player.position.y += 3;
+			player.ellipsoid = new BABYLON.Vector3(0.25, 0.25, 0.25);
 			
-			//camera = new BABYLON.FreeCamera('camera1', new BABYLON.Vector3(0, 5,-10), scene);
+			// camera = new BABYLON.FreeCamera('camera1', new BABYLON.Vector3(0, 5,-10), scene);
 			camera = new BABYLON.FollowCamera("FollowCam", new BABYLON.Vector3(0, 50, 0), scene);
 			camera.target = player;
 
@@ -43,11 +44,9 @@ window.addEventListener('DOMContentLoaded', function(){
 
 			// create a built-in "ground" shape; its constructor takes the same 5 params as the sphere's one
 			// world = new BABYLON.Mesh.CreateGround('ground1', 100, 100, 2, scene);
-			world = CreateGround(scene);
+			world = CreateWorld(scene);
 			world.checkCollisions = true;
 			world.position.y = -2;
-
-			var water = CreateWater(scene);
 
 			// return the created scene
 			return scene;
@@ -79,9 +78,8 @@ window.addEventListener('DOMContentLoaded', function(){
 				forwards.y = -settings.gravity;
 			}
 			
-			if (player.position.y <= 0.5) {
-				alert("Tot");
-				location.href = "index.html";
+			if (player.position.y < 0.6) {
+				player.position.y = 0.6;
 			}
 
 			player.moveWithCollisions(forwards);
