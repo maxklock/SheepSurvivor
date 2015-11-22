@@ -1,10 +1,14 @@
 <?php
-	try {
-		$conn = new PDO ( "sqlsrv:server = tcp:klockmann.database.windows.net,1433; Database = sheep-survivor", "klockmann", "sqlP23dhimh,mwnm");
-		$conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+	// Server in diesem Format: <computer>\<instance name> oder
+	// <server>,<port>, falls nicht der Standardport verwendet wird
+	$server = 'klockmann.database.windows.net,1433';
+	
+	// Mit MSSQL verbinden
+	$verbindung = mssql_connect($server, 'klockmann', 'sqlP23dhimh,mwnm');
+	
+	if (!$verbindung) {
+		die('Beim Aufbau der Verbindung mit MSSQL ging etwas schief');
 	}
-	catch ( PDOException $e ) {
-		print( "Error connecting to SQL Server." );
-		die(print_r($e));
-	}
+	
+	echo "Yeah";
 ?>
