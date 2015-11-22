@@ -53,6 +53,8 @@ function UpdatePlayer(player) {
 	
 	if (player.position.y < 0.6) {
 		player.position.y = 0.6;
+		forwards.x *= settings.swimmingBreak;
+		forwards.z *= settings.swimmingBreak;
 		if (!sounds.water.isPlaying) {
 			sounds.water.play(1);
 		}

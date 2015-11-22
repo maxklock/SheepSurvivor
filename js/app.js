@@ -7,7 +7,8 @@ function isDown(key) {
 
 var settings = {
 	rotationSpeed: Math.PI / 64,
-	movingSpeed: 4,
+	movingSpeed: 3,
+	swimmingBreak: 0.5,
 	gravity: 0.2,
 	camera: {
 		minRadius: 8,
