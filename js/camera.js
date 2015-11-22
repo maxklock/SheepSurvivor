@@ -7,7 +7,7 @@ function CreateCamera(scene, player, canvas) {
 	return camera;
 }
 
-function UpdateCamera(camera) {
+function UpdateCamera(camera, light, shadowGenerator) {
 	camera.radius -= mouseWheelDelta * 0.025;
 	
 	if (camera.radius < settings.camera.minRadius) {

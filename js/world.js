@@ -4,7 +4,7 @@ function CreateWorld(scene) {
 	groundMaterial.specularPower = Number.MAX_VALUE;
 	
 	var settings = {
-		width: 200,
+		width: 400,
 		height: 200,
 		levelOfDetail: 250,
 		minLevel: 0,
