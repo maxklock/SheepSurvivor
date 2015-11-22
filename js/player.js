@@ -53,7 +53,7 @@ function UpdatePlayer(player) {
 	
 	if (player.position.y < 0.6) {
 		player.position.y = 0.6;
-		if (!sounds.water.isPlaying || true) {
+		if (!sounds.water.isPlaying) {
 			sounds.water.play(1);
 		}
 	} else if (player.position.y >= 0.8 || isSleeping) {
