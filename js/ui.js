@@ -1,5 +1,6 @@
 var foodDiv;
 var finalPoints;
+var sleepingDiv;
 
 var mainMenu;
 var inGame;
@@ -32,6 +33,7 @@ window.addEventListener('DOMContentLoaded', function(){
 		// get the canvas DOM element
 		foodDiv = document.getElementById('foodDiv');
 		finalPoints = document.getElementById('finalPoints');
+		sleepingDiv = document.getElementById('sleepingDiv');
 		
 		mainMenu = document.getElementById('mainMenu');
 		inGame = document.getElementById('inGame');
@@ -86,6 +88,8 @@ function UpdateUI() {
 	controlling.style.display = (state == STATES.controlling ? "block" : "none");
 	win.style.display = (state == STATES.win ? "block" : "none");
 	credits.style.display = (state == STATES.credits ? "block" : "none");
+	
+	sleepingDiv.style.display = (isSleeping ? "block" : "none");
 	
 	foodDiv.innerText = values.food.toString();
 	finalPoints.innerText = (values.food * settings.startValues.energie + values.energie) + ' Punkte';
