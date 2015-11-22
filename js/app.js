@@ -14,7 +14,7 @@ var settings = {
 		maxRadius: 20
 	},
 	startValues: {
-		energie: 500,
+		energie: 400,
 		food: 10	
 	},
 	food: 5
@@ -127,10 +127,13 @@ window.addEventListener('DOMContentLoaded', function() {
 				if (values.food <= 0) {
 					state = STATES.gameOver;
 					sounds.sheep.play();
+					sounds.background.stop();
 				}
 				
 				if (foods.length <= 0) {
 					state = STATES.win;
+					sounds.sheep.play();
+					sounds.background.stop();
 				}
 			}		
 				
