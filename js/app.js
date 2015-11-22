@@ -28,6 +28,7 @@ var values = {
 var sounds = {
 	sheep: null,
 	background: null,
+	water: null
 };
 
 window.addEventListener('DOMContentLoaded', function() {
@@ -72,6 +73,7 @@ window.addEventListener('DOMContentLoaded', function() {
 				
 			// load sounds;
 			sounds.sheep = new BABYLON.Sound("sheep", "music/sheep.wav", scene);
+			sounds.water = new BABYLON.Sound("water", "music/water.wav", scene);
 			sounds.background = new BABYLON.Sound("background", "music/background.mp3", scene);
 		
 			// create food;

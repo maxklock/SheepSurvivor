@@ -22,31 +22,50 @@ function CreatePlayer(scene) {
 	playerHead.material = playerHeadMaterial;
 	
 	return player;
+	
+	isSleeping = false;
 }
+
+var isSleeping;
 
 function UpdatePlayer(player) {
 	var forwards = new BABYLON.Vector3.Zero();
 	var direction = (isDown('W') ? 1 : (isDown('S') ? -1 : 0));
 	
-	if (isDown('A')) {
-		player.rotation.y -= settings.rotationSpeed * (direction == 0 ? 1 : direction);
-	}
-	if (isDown('D')) {
-		player.rotation.y += settings.rotationSpeed * (direction == 0 ? 1 : direction);
-	}
-	if (direction == 1) {
-		forwards.x = -parseFloat(Math.sin(player.rotation.y)) / settings.movingSpeed;
-		forwards.z = -parseFloat(Math.cos(player.rotation.y)) / settings.movingSpeed;
-		forwards.y = -settings.gravity;
-	}
-	if (direction == -1) {
-		forwards.x = parseFloat(Math.sin(player.rotation.y)) / settings.movingSpeed;
-		forwards.z = parseFloat(Math.cos(player.rotation.y)) / settings.movingSpeed;
-		forwards.y = -settings.gravity;
+	if (!isSleeping) {
+		if (isDown('A')) {
+			player.rotation.y -= settings.rotationSpeed * (direction == 0 ? 1 : direction);
+		}
+		if (isDown('D')) {
+			player.rotation.y += settings.rotationSpeed * (direction == 0 ? 1 : direction);
+		}
+		if (direction == 1) {
+			forwards.x = -parseFloat(Math.sin(player.rotation.y)) / settings.movingSpeed;
+			forwards.z = -parseFloat(Math.cos(player.rotation.y)) / settings.movingSpeed;
+			forwards.y = -settings.gravity;
+		}
+		if (direction == -1) {
+			forwards.x = parseFloat(Math.sin(player.rotation.y)) / settings.movingSpeed;
+			forwards.z = parseFloat(Math.cos(player.rotation.y)) / settings.movingSpeed;
+			forwards.y = -settings.gravity;
+		}
 	}
 	
 	if (player.position.y < 0.6) {
 		player.position.y = 0.6;
+		if (!sounds.water.isPlaying) {
+			sounds.water.play();
+		}
+	} else if (player.position.y >= 0.8 || isSleeping) {
+		if (isDown('Z')) {
+			if (isSleeping) {
+				player.position.y += 0.7;
+			} else {
+				player.position.y -= 0.7;
+			}
+			isSleeping = !isSleeping;
+			keyStates['Z'] = false;
+		}
 	}
 
 	player.moveWithCollisions(forwards);
