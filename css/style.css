@@ -17,6 +17,11 @@ div {
 	text-align: center;
 }
 
+button {
+	width: 200px;
+	height: 30px;
+}
+
 #renderCanvas {
 	width   : 100%;
 	height  : 100%;

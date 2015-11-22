@@ -102,10 +102,10 @@ function UpdatePlayer(player) {
 			legBL.restart();
 			legBR.restart();
 		} else {	
-			legFL.reset();
-			legFR.reset();
-			legBL.reset();
-			legBR.reset();
+			legFL.target.rotation.x = 0;
+			legFR.target.rotation.x = 0;
+			legBL.target.rotation.x = 0;
+			legBR.target.rotation.x = 0;
 		}
 	}
 	
