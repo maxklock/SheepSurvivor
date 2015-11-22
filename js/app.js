@@ -15,7 +15,7 @@ var settings = {
 		maxRadius: 20
 	},
 	startValues: {
-		energie: 400,
+		energie: 300,
 		food: 10	
 	},
 	food: 5
